@@ -65,7 +65,25 @@ async def add_member(organization: str, name: str):
                         detail="Organization doesn't exist."
                         )
 
-    
+@app.delete("/api/{organization}/{name}")
+async def del_member(organization: str, name: str):
+    if os.path.exists(f'./data/{organization}.json'):
+        with open(f'./data/{organization}.json', mode = 'r+') as f:
+            content = json.load(f)
+            if name not in content.keys():
+                raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="Name does exists."
+                        )
+            else:
+                del content[name] # Is this correct?
+                f.seek(0)
+                json.dump(content, f)
+    else:
+        raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="Organization doesn't exist."
+                        )
 
 @app.get("/api/{organization}/{name}")
 async def get_member(organization: str, name: str):
@@ -104,4 +122,5 @@ async def add_time(organization: str, name: str, time: AddTimeModel):
                         status_code=status.HTTP_400_BAD_REQUEST,
                         detail="Organization doesn't exist."
                         )
+
 
