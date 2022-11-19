@@ -33,5 +33,9 @@ async def file(file:str, ext: str):
 async def path():
     return FileResponse(f"{PUBLIC_DIRECTORY}/index.html")
 
+@app.get("/{path}/{name}")
+async def path_name():
+    return FileResponse(f"{PUBLIC_DIRECTORY}/index.html")
+
 app.mount("/", StaticFiles(directory=PUBLIC_DIRECTORY), name="public")
 
