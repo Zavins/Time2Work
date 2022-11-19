@@ -77,8 +77,10 @@ async def del_member(organization: str, name: str):
                         )
             else:
                 del content[name] # Is this correct?
+                log.info(content)
                 f.seek(0)
                 json.dump(content, f)
+                f.truncate()
     else:
         raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
